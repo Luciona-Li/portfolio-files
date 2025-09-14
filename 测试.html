@@ -1,0 +1,597 @@
+<html lang="zh-CN"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>李湘雲-作品集</title>
+    <!-- 外部资源 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js"></script>
+    <!-- 字体引入 -->
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@700;900&amp;family=Roboto:wght@300;400&amp;display=swap" rel="stylesheet">
+    
+    <!-- Tailwind 配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        neonPurple: '#7928CA',
+                        neonPink: '#FF0080',
+                        neonCyan: '#00F5D4',
+                        neonBlue: '#00BBF9',
+                        dark: '#0A0A0A',
+                    },
+                    fontFamily: {
+                        exo: ['"Exo 2"', 'sans-serif'],
+                        roboto: ['Roboto', 'sans-serif'],
+                    },
+                    animation: {
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                        'float': 'float 3s ease-in-out infinite',
+                        'typing': 'typing 3s steps(40, end), blink-caret .75s step-end infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        glow: {
+                            '0%': { boxShadow: '0 0 5px #7928CA, 0 0 10px #7928CA' },
+                            '100%': { boxShadow: '0 0 10px #FF0080, 0 0 20px #FF0080' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        typing: {
+                            'from': { width: '0' },
+                            'to': { width: '100%' },
+                        },
+                        'blink-caret': {
+                            'from, to': { borderColor: 'transparent' },
+                            '50%': { borderColor: '#FF0080' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- 自定义样式 -->
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-gradient {
+                @apply bg-clip-text text-transparent bg-gradient-to-r from-neonPurple via-neonPink to-neonBlue;
+            }
+            .border-gradient {
+                @apply border-0 bg-gradient-to-r from-neonPurple to-neonPink p-[1px] rounded-lg;
+            }
+            .card-inner {
+                @apply bg-dark rounded-lg p-6 h-full;
+            }
+            .hover-lift {
+                @apply transition-all duration-500 hover:translate-y-[-8px] hover:shadow-[0_0_20px_rgba(121,40,202,0.5)];
+            }
+            .scroll-hidden {
+                @apply overflow-x-hidden;
+            }
+            .aspect-16x9 {
+                @apply aspect-[16/9];
+            }
+            .gradient-dot {
+                @apply w-10 h-10 rounded-full bg-gradient-to-r from-neonPurple to-neonPink flex items-center justify-center text-white;
+            }
+            .decor-line {
+                @apply h-px bg-gradient-to-r from-transparent via-neonPurple to-transparent my-6;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-black text-white font-roboto scroll-hidden">
+    <!-- 导航栏（固定顶部，滚动变化） -->
+    <nav id="navbar" class="fixed top-0 left-0 w-full z-50 transition-all duration-500 bg-black/80 backdrop-blur-md">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <a href="#hero" class="text-2xl font-exo font-bold text-gradient">李湘雲 Portfolio</a>
+            
+            <!-- 桌面端导航 -->
+            <div class="hidden md:flex space-x-8">
+                <a href="#about" class="hover:text-neonPink transition-colors">关于我</a>
+                <a href="#skills" class="hover:text-neonPink transition-colors">技能矩阵</a>
+                <a href="#projects" class="hover:text-neonPink transition-colors">项目案例</a>
+                <a href="#data" class="hover:text-neonPink transition-colors">数据成果</a>
+                <a href="#contact" class="hover:text-neonPink transition-colors">联系我</a>
+            </div>
+            
+            <!-- 移动端汉堡菜单 -->
+            <button id="menuBtn" class="md:hidden text-white text-2xl">
+                <i class="fa fa-bars"></i>
+            </button>
+        </div>
+        
+        <!-- 移动端菜单（默认隐藏） -->
+        <div id="mobileMenu" class="md:hidden hidden bg-dark/95 backdrop-blur-md w-full">
+            <div class="container mx-auto px-4 py-4 flex flex-col space-y-4">
+                <a href="#about" class="py-2 hover:text-neonPink transition-colors">关于我</a>
+                <a href="#skills" class="py-2 hover:text-neonPink transition-colors">技能矩阵</a>
+                <a href="#projects" class="py-2 hover:text-neonPink transition-colors">项目案例</a>
+                <a href="#data" class="py-2 hover:text-neonPink transition-colors">数据成果</a>
+                <a href="#contact" class="py-2 hover:text-neonPink transition-colors">联系我</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 1. 首页Hero区 -->
+    <section id="hero" class="relative h-screen flex items-center justify-center overflow-hidden">
+        <!-- 粒子动态背景 -->
+        <div id="particles-js" class="absolute inset-0 z-0"></div>
+        
+        <!-- 主内容 -->
+        <div class="container mx-auto px-4 z-10 text-center">
+            <h1 class="text-[clamp(2.5rem,8vw,5rem)] font-exo font-black mb-4 opacity-0" id="heroTitle">
+                <span class="text-gradient">李湘雲 · Luciona</span>
+            </h1>
+            <p class="text-[clamp(1rem,3vw,1.5rem)] text-gray-300 mb-8 max-w-2xl mx-auto opacity-0 border-r-4 border-neonPink pr-2 w-0 overflow-hidden" id="heroSubtitle">2026届 | 金融硕士 | ENTJ-A | 日供一卒</p>
+            <!-- 下载按钮组 -->
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="https://pan.quark.cn/s/afd59262e517" download="李湘雲作品集.pdf" class="inline-block border-gradient hover-lift">
+                    <div class="card-inner px-8 py-3">
+                        <span class="font-bold">下载作品集PDF（56MB） <i class="fa fa-download ml-2"></i></span>
+                    </div>
+                </a>
+                <a href="https://pan.quark.cn/s/04c7389eaa08" download="李湘雲简历.pdf" class="inline-block border-gradient hover-lift">
+                    <div class="card-inner px-8 py-3">
+                        <span class="font-bold">下载简历（437KB） <i class="fa fa-download ml-2"></i></span>
+                    </div>
+                </a>
+            </div>
+        </div>
+        
+        <!-- 底部滚动提示 -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <i class="fa fa-angle-down text-3xl text-neonPink"></i>
+        </div>
+    </section>
+
+    <!-- 2. 关于我 -->
+    <section id="about" class="py-20 bg-dark">
+        <div class="container mx-auto px-4">
+            <h2 class="text-[clamp(1.8rem,5vw,3rem)] font-exo font-bold text-gradient mb-16 text-center">关于我</h2>
+            
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <!-- 个人理念 -->
+                <div class="space-y-6">
+                    <h3 class="text-2xl font-exo font-bold mb-4">ENTJ的成长之路</h3>
+                    <p class="text-gray-300">
+                        从浙江理工大学到扬州大学，我始终以“专攻学业 → 突破竞赛 → 钻研学术 → 规划实践”为路径，在每个阶段收获全新的自己。做一棵向下扎根的树，汲取养分不断成长。
+                    </p>
+                    <p class="text-gray-300">摆脱冷气，向上走；且视他人之疑目如盏盏鬼火，大胆地去走你的夜路。</p>
+                    <div class="mt-8 border-gradient inline-block">
+                        <div class="card-inner px-6 py-2">
+                            <span class="font-bold text-gradient">勇敢的人先享受世界</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 教育背景时间轴 -->
+                <div class="relative">
+                    <!-- 时间轴线 -->
+                    <div class="absolute left-4 top-0 bottom-0 w-1 bg-gradient-to-b from-neonPurple to-neonPink"></div>
+                    
+                    <!-- 硕士教育 -->
+                    <div class="mb-12 relative pl-12">
+                        <div class="absolute left-0 top-0 w-8 h-8 rounded-full bg-dark border-2 border-neonPink flex items-center justify-center z-10">
+                            <i class="fa fa-graduation-cap text-neonPink"></i>
+                        </div>
+                        <h4 class="text-xl font-exo font-bold mb-2">扬州大学 | 金融 - 硕士</h4>
+                        <p class="text-neonPink mb-2">2024 - 2026（预计毕业） | 排名 1/11</p>
+                        <p class="text-gray-300">省部共建高校，主攻数据资产运营、金融数据分析方向，参与科研项目数据处理与论文撰写。</p>
+                    </div>
+                    
+                    <!-- 本科教育 -->
+                    <div class="pl-12">
+                        <div class="absolute left-0 top-[140px] w-8 h-8 rounded-full bg-dark border-2 border-neonPurple flex items-center justify-center z-10">
+                            <i class="fa fa-university text-neonPurple"></i>
+                        </div>
+                        <h4 class="text-xl font-exo font-bold mb-2">浙江理工大学 | 金融学本科</h4>
+                        <p class="text-neonPurple mb-2">2019 - 2023 | 卓越工程师计划 | 排名 3/69</p>
+                        <p class="text-gray-300">担任经济管理学院团委学生会成员，策划“夏日造梦者”毕业生草坪音乐节，获校级“先进个人”。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. 技能矩阵 -->
+    <section id="skills" class="py-20 bg-black">
+        <div class="container mx-auto px-4">
+            <h2 class="text-[clamp(1.8rem,5vw,3rem)] font-exo font-bold text-gradient mb-16 text-center">技能矩阵</h2>
+            
+            <div class="grid md:grid-cols-2 gap-16">
+                <!-- 硬技能 -->
+                <div>
+                    <h3 class="text-2xl font-exo font-bold mb-8 flex items-center">
+                        <span class="border-gradient mr-3 p-2 rounded">
+                            <i class="fa fa-laptop text-dark"></i>
+                        </span>
+                        硬技能
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <!-- 技能1 -->
+                        <div class="border-gradient hover-lift">
+                            <div class="card-inner flex flex-col items-center justify-center p-6 text-center">
+                                <i class="fa fa-file-powerpoint-o text-4xl text-neonPink mb-4"></i>
+                                <h4 class="font-bold mb-2">PowerPoint</h4>
+                                <p class="text-gray-400 text-sm">优秀课程汇报/省赛荣誉/教学课件征用</p>
+                            </div>
+                        </div>
+                        
+                        <!-- 技能2 -->
+                        <div class="border-gradient hover-lift">
+                            <div class="card-inner flex flex-col items-center justify-center p-6 text-center">
+                                <i class="fa fa-file-excel-o text-4xl text-neonBlue mb-4"></i>
+                                <h4 class="font-bold mb-2">Excel</h4>
+                                <p class="text-gray-400 text-sm">数据透视表/数据清洗/可视化报表</p>
+                            </div>
+                        </div>
+                        
+                        <!-- 技能3 -->
+                        <div class="border-gradient hover-lift">
+                            <div class="card-inner flex flex-col items-center justify-center p-6 text-center">
+                                <i class="fa fa-code text-4xl text-neonPurple mb-4"></i>
+                                <h4 class="font-bold mb-2">Python</h4>
+                                <p class="text-gray-400 text-sm">面板数据处理/多元回归/DID模型/客户流失预测</p>
+                            </div>
+                        </div>
+                        
+                        <!-- 技能4 -->
+                        <div class="border-gradient hover-lift">
+                            <div class="card-inner flex flex-col items-center justify-center p-6 text-center">
+                                <i class="fa fa-database text-4xl text-neonCyan mb-4"></i>
+                                <h4 class="font-bold mb-2">SQL</h4>
+                                <p class="text-gray-400 text-sm">数据查询/多表关联/数据提取</p>
+                            </div>
+                        </div>
+                        
+                        <!-- 技能5 -->
+                        <div class="border-gradient hover-lift">
+                            <div class="card-inner flex flex-col items-center justify-center p-6 text-center">
+                                <i class="fa fa-bar-chart text-4xl text-neonPink mb-4"></i>
+                                <h4 class="font-bold mb-2">SPSS / Stata</h4>
+                                <p class="text-gray-400 text-sm">描述性统计/卡方检验/T检验/回归分析/中介效应检验</p>
+                            </div>
+                        </div>
+                        
+                        <!-- AI工具技能 -->
+                        <div class="border-gradient hover-lift">
+                            <div class="card-inner flex flex-col items-center justify-center p-6 text-center">
+                                <i class="fa fa-microchip text-4xl text-neonBlue mb-4"></i>
+                                <h4 class="font-bold mb-2">AI工具</h4>
+                                <p class="text-gray-400 text-sm">DeepSeek、kimi、豆包、RoboNeo、即梦、Trae</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 软技能 -->
+                <div>
+                    <h3 class="text-2xl font-exo font-bold mb-8 flex items-center">
+                        <span class="border-gradient mr-3 p-2 rounded">
+                            <i class="fa fa-users text-dark"></i>
+                        </span>
+                        软技能
+                    </h3>
+                    
+                    <div class="grid grid-cols-2 gap-4 mb-8">
+                        <!-- 软技能标签 -->
+                        <div class="border-gradient hover-lift">
+                            <div class="card-inner px-4 py-3 text-center">
+                                <span>活动策划与执行</span>
+                            </div>
+                        </div>
+                        <div class="border-gradient hover-lift">
+                            <div class="card-inner px-4 py-3 text-center">
+                                <span>公众号运营</span>
+                            </div>
+                        </div>
+                        <div class="border-gradient hover-lift">
+                            <div class="card-inner px-4 py-3 text-center">
+                                <span>商务谈判</span>
+                            </div>
+                        </div>
+                        <div class="border-gradient hover-lift">
+                            <div class="card-inner px-4 py-3 text-center">
+                                <span>跨部门协同</span>
+                            </div>
+                        </div>
+                        <div class="border-gradient hover-lift">
+                            <div class="card-inner px-4 py-3 text-center">
+                                <span>需求调研</span>
+                            </div>
+                        </div>
+                        <div class="border-gradient hover-lift">
+                            <div class="card-inner px-4 py-3 text-center">
+                                <span>财务跟进</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 技能应用场景 -->
+                    <div class="border-gradient">
+                        <div class="card-inner p-6">
+                            <h4 class="font-bold mb-4 text-neonBlue">技能应用亮点</h4>
+                            <ul class="space-y-3 text-gray-300">
+                                <li class="flex items-start">
+                                    <i class="fa fa-check-circle text-neonPink mt-1 mr-2"></i>
+                                    <span>用Python完成7043条客户数据清洗，构建KNN/SVC等模型，Voting Classifier准确率达82%，实现高风险客户留存管理</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-check-circle text-neonPink mt-1 mr-2"></i>
+                                    <span>用Excel+SQL梳理某电网公司146个数据中台系统，盘点110,036张数据表、2143亿条有效记录，输出数据资源报告</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fa fa-check-circle text-neonPink mt-1 mr-2"></i>
+                                    <span>用SPSS处理科研数据，完成国家级期刊论文制表与描述，支撑学术成果发表</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. 项目案例 -->
+    <section id="projects" class="py-20 bg-dark">
+        <div class="container mx-auto px-4">
+            <h2 class="text-[clamp(1.8rem,5vw,3rem)] font-exo font-bold text-gradient mb-16 text-center">项目案例</h2>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- 项目1：公众号运营 -->
+                <div class="border-gradient hover-lift project-card" data-project="wechat">
+                    <div class="card-inner h-full flex flex-col">
+                        <div class="mb-4 overflow-hidden rounded-lg">
+                            <img src="https://picsum.photos/id/237/600/338" alt="公众号运营截图" class="w-full aspect-16x9 object-cover transition-transform duration-700 hover:scale-110">
+                        </div>
+                        <h3 class="text-xl font-exo font-bold mb-2 text-neonPink">公众号运营</h3>
+                        <p class="text-gray-400 mb-4 text-sm">负责“扬州大学研究生教育”“团学经生”公众号内容策划与运营</p>
+                        <div class="mt-auto space-y-2">
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-400">累积用户</span>
+                                <span class="font-bold text-gradient">+4763</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-400">平均单篇阅读量</span>
+                                <span class="font-bold text-gradient">514.61次</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-400">原创内容</span>
+                                <span class="font-bold text-gradient">1303篇（扬大）/ 139篇（经生）</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 项目2：夏日造梦者音乐节 -->
+                <div class="border-gradient hover-lift project-card" data-project="music">
+                    <div class="card-inner h-full flex flex-col">
+                        <div class="mb-4 overflow-hidden rounded-lg">
+                            <img src="https://picsum.photos/id/96/600/338" alt="夏日造梦者音乐节海报" class="w-full aspect-16x9 object-cover transition-transform duration-700 hover:scale-110">
+                        </div>
+                        <h3 class="text-xl font-exo font-bold mb-2 text-neonBlue">“夏日造梦者”毕业生草坪音乐节</h3>
+                        <p class="text-gray-400 mb-4 text-sm">浙江理工大学经管学院主办，首次学生自主组织的毕业品牌项目</p>
+                        <div class="mt-auto space-y-2">
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-400">现场观众</span>
+                                <span class="font-bold text-gradient">500+人</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-400">推文阅读量</span>
+                                <span class="font-bold text-gradient">3900+次</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-400">职责</span>
+                                <span class="font-bold text-gradient">需求调研+跨部门协同</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 项目3：数据资产运营管理师高研班 -->
+                <div class="border-gradient hover-lift project-card" data-project="training">
+                    <div class="card-inner h-full flex flex-col">
+                        <div class="mb-4 overflow-hidden rounded-lg">
+                            <img src="https://picsum.photos/id/48/600/338" alt="高研班培训现场" class="w-full aspect-16x9 object-cover transition-transform duration-700 hover:scale-110">
+                        </div>
+                        <h3 class="text-xl font-exo font-bold mb-2 text-neonPurple">数据资产运营管理师高研班</h3>
+                        <p class="text-gray-400 mb-4 text-sm">全国性管理层培训，链接国家重点单位与企业数据治理管理者</p>
+                        <div class="mt-auto space-y-2">
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-400">培训时长</span>
+                                <span class="font-bold text-gradient">3天</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-400">招募学员</span>
+                                <span class="font-bold text-gradient">195人</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-400">职责</span>
+                                <span class="font-bold text-gradient">策划+商务谈判+招生</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 项目4：研究型数据分析 -->
+                <div class="border-gradient hover-lift project-card" data-project="research">
+                    <div class="card-inner h-full flex flex-col">
+                        <div class="mb-4 overflow-hidden rounded-lg">
+                            <img src="https://picsum.photos/id/180/600/338" alt="数据分析图表" class="w-full aspect-16x9 object-cover transition-transform duration-700 hover:scale-110">
+                        </div>
+                        <h3 class="text-xl font-exo font-bold mb-2 text-neonCyan">研究型数据分析</h3>
+                        <p class="text-gray-400 mb-4 text-sm">支撑国家级/国际期刊论文，负责数据处理、分析与文本撰写</p>
+                        <div class="mt-auto space-y-2">
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-400">工具</span>
+                                <span class="font-bold text-gradient">SPSS / Stata / Python</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-400">分析内容</span>
+                                <span class="font-bold text-gradient">回归/卡方检验/中介效应</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-400">成果</span>
+                                <span class="font-bold text-gradient">期刊论文数据支撑</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 项目5：商业型数据分析（客户流失预测） -->
+                <div class="border-gradient hover-lift project-card" data-project="churn">
+                    <div class="card-inner h-full flex flex-col">
+                        <div class="mb-4 overflow-hidden rounded-lg">
+                            <img src="https://picsum.photos/id/160/600/338" alt="客户流失预测模型" class="w-full aspect-16x9 object-cover transition-transform duration-700 hover:scale-110">
+                        </div>
+                        <h3 class="text-xl font-exo font-bold mb-2 text-neonPink">客户流失预测分析</h3>
+                        <p class="text-gray-400 mb-4 text-sm">基于7043条客户数据，构建多模型预测高风险客户，实现留存管理</p>
+                        <div class="mt-auto space-y-2">
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-400">数据量</span>
+                                <span class="font-bold text-gradient">7043条</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-400">最优模型准确率</span>
+                                <span class="font-bold text-gradient">82%（Voting Classifier）</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-400">应用</span>
+                                <span class="font-bold text-gradient">高风险客户留存</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 项目6：电网数据资源盘点 -->
+                <div class="border-gradient hover-lift project-card" data-project="powergrid">
+                    <div class="card-inner h-full flex flex-col">
+                        <div class="mb-4 overflow-hidden rounded-lg">
+                            <img src="https://picsum.photos/id/119/600/338" alt="电网数据盘点" class="w-full aspect-16x9 object-cover transition-transform duration-700 hover:scale-110">
+                        </div>
+                        <h3 class="text-xl font-exo font-bold mb-2 text-neonBlue">电网公司数据资源盘点</h3>
+                        <p class="text-gray-400 mb-4 text-sm">梳理146个数据中台系统，盘点数据资源总量，输出专业报告</p>
+                        <div class="mt-auto space-y-2">
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-400">数据表数量</span>
+                                <span class="font-bold text-gradient">110,036张</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-400">有效记录</span>
+                                <span class="font-bold text-gradient">2143亿条</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-400">成果</span>
+                                <span class="font-bold text-gradient">独立撰写盘点报告</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 项目详情弹窗（默认隐藏） -->
+            <div id="projectModal" class="fixed inset-0 bg-black/90 backdrop-blur-lg z-50 hidden flex items-center justify-center p-4">
+                <div class="w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+                    <div class="border-gradient">
+                        <div class="card-inner relative">
+                            <!-- 关闭按钮 -->
+                            <button id="closeModal" class="absolute top-4 right-4 text-2xl text-gray-400 hover:text-neonPink transition-colors">
+                                <i class="fa fa-times"></i>
+                            </button>
+                            
+                            <!-- 弹窗内容（动态填充） -->
+                            <div id="modalContent" class="pt-4">
+                                <!-- 内容由JS动态注入 -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. 数据成果 -->
+    <section id="data" class="py-20 bg-black">
+        <div class="container mx-auto px-4">
+            <h2 class="text-[clamp(1.8rem,5vw,3rem)] font-exo font-bold text-gradient mb-16 text-center">数据成果可视化</h2>
+            
+            <div class="grid md:grid-cols-2 gap-12">
+                <!-- 图表1：客户流失预测模型准确率 -->
+                <div class="border-gradient">
+                    <div class="card-inner p-6">
+                        <h3 class="text-xl font-exo font-bold mb-6 text-neonPink">客户流失预测模型准确率对比</h3>
+                        <div class="h-80">
+                            <canvas id="churnChart"></canvas>
+                        </div>
+                        <p class="text-gray-400 text-sm mt-4">基于7043条客户数据，测试5类模型，Voting Classifier（软投票）综合准确率最高（82%），可有效识别高风险流失客户。</p>
+                    </div>
+                </div>
+                
+                <!-- 图表2：电网数据资源盘点 -->
+                <div class="border-gradient">
+                    <div class="card-inner p-6">
+                        <h3 class="text-xl font-exo font-bold mb-6 text-neonBlue">电网数据资源构成</h3>
+                        <div class="h-80">
+                            <canvas id="powergridChart"></canvas>
+                        </div>
+                        <p class="text-gray-400 text-sm mt-4">146个数据中台系统按业务类型划分，资产管理类（35%）与设备管理类（28%）占比最高，共覆盖100个数据源。</p>
+                    </div>
+                </div>
+                
+                <!-- 核心成果数据统计 -->
+                <div class="border-gradient md:col-span-2">
+                    <div class="card-inner p-6">
+                        <h3 class="text-xl font-exo font-bold mb-8 text-center text-gradient">核心成果数据</h3>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+                            <!-- 数据1 -->
+                            <div class="counter-item">
+                                <div class="text-4xl font-exo font-bold text-gradient mb-2 counter" data-target="4763">0</div>
+                                <p class="text-gray-400">公众号累积用户</p>
+                            </div>
+                            
+                            <!-- 数据2 -->
+                            <div class="counter-item">
+                                <div class="text-4xl font-exo font-bold text-gradient mb-2 counter" data-target="195">0</div>
+                                <p class="text-gray-400">高研班招募学员</p>
+                            </div>
+                            
+                            <!-- 数据3 -->
+                            <div class="counter-item">
+                                <div class="text-4xl font-exo font-bold text-gradient mb-2 counter" data-target="500">0</div>
+                                <p class="text-gray-400">音乐节现场观众</p>
+                            </div>
+                            
+                            <!-- 数据4 -->
+                            <div class="counter-item">
+                                <div class="text-4xl font-exo font-bold text-gradient mb-2 counter" data-target="110036">0</div>
+                                <p class="text-gray-400">电网数据表数量</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. 联系我 -->
+    <section id="contact" class="py-20 bg-dark relative overflow-hidden">
+        <!-- 背景装饰 -->
+        <div class="absolute -top-40 -right-40 w-80 h-80 bg-neonPurple/20 rounded-full blur-3xl"></div>
+        <div class="absolute -bottom-20 -left-20 w-60 h-60 bg-neonPink/20 rounded-full blur-3xl"></div>
+        
+        <div class="container mx-auto px-4 relative z-10">
+            <h2 class="text-[clamp(1.8rem,5vw,3rem)] font-exo font-bold text-gradient mb-16 text-center">联系我</h2>
+            
+            <div class="grid md:grid-cols-2 gap-12">
+                <!-- 说个悄悄话给我 -->
+                <div class="border-gradient transform transition-all duration-700 hover:rotate-1 hover:scale-[1.02]">
+                   
